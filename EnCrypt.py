@@ -19,10 +19,9 @@ def EnCrypt():
         result = data1.translate(encryptTransTable)
         result_label.config(text=result)
 
-        f = open("ENCRYPTED_DATA.txt", "w")
-        f.write(result)
-        f.close()
-        os.startfile("ENCRYPTED_DATA.txt")
+    # Open the file with UTF-8 encoding
+        with open("ENCRYPTED_DATA.txt", "w", encoding="utf-8") as f:
+            f.write(result)
 
     def copy():
         return top1.clipboard_append((result_label["text"]))
