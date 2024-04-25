@@ -30,12 +30,18 @@ class Cred:
         self.cre.mainloop()
 
     def close_win(self, event=None):
-        if self.user.get() == "Nautilus":
-            if self.password.get() == "Nemo369":
-                DeCrypt()
-                self.cre.destroy()
-            else:
-                messagebox.showerror("ERROR", "Wrong password")
-        else:
-            messagebox.showerror("ERROR", "Wrong username")
+        username = self.user.get()
+        password = self.password.get()
+        for key, value in user_pass.items():
+            if key == username:
+                if value == password:
+                    DeCrypt()             
+                    self.cre.destroy()
+                    return
+                else:
+                    messagebox.showerror("ERROR", "Wrong password")
+                    return
+        messagebox.showerror("ERROR", "Wrong username")
 
+# User credentials
+user_pass = {"Achintharya": "0615", "Arav": "2604", "Arun": "1307"}

@@ -1,10 +1,8 @@
 import tkinter as Tk
 from tkinter import *
-import os
 from pass_entry import *
 from DeCrypt import *
 from EnCrypt import *
-
 
 class Criptr():
 
@@ -12,10 +10,6 @@ class Criptr():
     win.configure(bg="Cyan")
     win.geometry("400x300")
     win.title("Cryption")
-
-
-    e = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    d = "▲▼◀▶◢◣◥◤╰╯╭╮◄►▬↑↓↕→←↔♂♀♪♫☼§↨♥♦♣♠•○τΩδ∞φε∩╥╠╣╬╩╦╪╫╙╔╗"
 
     but1 = Button(
         win,
@@ -38,4 +32,3 @@ class Criptr():
 
     if __name__ == "__main__":
         win.mainloop()
-    

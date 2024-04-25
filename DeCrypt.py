@@ -1,5 +1,6 @@
 import tkinter as Tk
 from tkinter import *
+from trans_string import *
 
 def DeCrypt():
 

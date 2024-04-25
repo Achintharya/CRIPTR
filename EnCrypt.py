@@ -1,5 +1,7 @@
 import tkinter as Tk
 from tkinter import * 
+from trans_string import *
+import os
 
 def EnCrypt():
     top1 = Tk()
