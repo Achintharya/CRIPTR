@@ -1,1 +1,1 @@
-CRIPTR is a text encrypt-decrypt program with a tkinter interface. It employs a username-password authentication to access decryption
+CRIPTR is a personalized text encryption and decryption program with a tkinter interface that can encrypt data into characters of your choosing. It employs a username-password authentication to access decryption. It also saves the encrypted data temporarily in a file until new data is encrypted. 
