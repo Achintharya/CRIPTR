@@ -38,6 +38,7 @@ class Cred():
         self.cre.mainloop()
 
     def close_win(self, event=None):
+        global username
         username = self.user.get()
         password = self.password.get()
         if not username or not password:

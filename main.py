@@ -5,19 +5,20 @@ from Decryption import DeCrypt
 from Encryption import EnCrypt
 from newUser import newUser
 
+
 class Criptr():
 
     win = Tk()
     win.configure(bg="Cyan")
-    win.geometry("600x400")
+    win.geometry("800x450")
     win.title("Cryption")
 
-    Welc_message = Label(win, text ="Welcome to CRIPTR", font="Arial 20 bold", bg="Cyan"
+    Welc_message = Label(win, text ="Welcome to CRIPTR ", font="Helvetica 20 bold", bg="Cyan", justify="center"
     ).pack(pady=7)
 
     but1 = Button(
         win,
-        text="EnCryption",
+        text="Encryption",
         command=EnCrypt,
         cursor = "target",
         font="Helvetica 18 bold",
@@ -27,7 +28,7 @@ class Criptr():
     
     but2 = Button(
         win,
-        text="DeCryption",
+        text="Decryption",
         command=Cred,
         font="Helvetica 18 bold",
         cursor = "pirate",
@@ -39,4 +40,3 @@ class Criptr():
     
     if __name__ == "__main__":
         win.mainloop()
-        
