@@ -54,5 +54,3 @@ class newUser():
                 self.new.destroy()
         else:
             messagebox.showerror("Error","Please enter both username and password.")
-
-newUser()
