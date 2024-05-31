@@ -43,6 +43,7 @@ class Cred():
         password = self.password.get()
         if not username or not password:
             messagebox.showerror("ERROR", "Please enter both username and password.")
+            self.cre.destroy()
             return
         for key, value in self.data.items():
             if key == username:
@@ -52,5 +53,8 @@ class Cred():
                     return
                 else:
                     messagebox.showerror("ERROR", "Wrong password")
+                    self.cre.destroy()
                     return
         messagebox.showerror("ERROR", "Wrong username")
+        self.cre.destroy()
+

@@ -1,7 +1,8 @@
 import tkinter as Tk
-from tkinter import * 
-from trans_string import *
-import os
+from tkinter import *
+import hashlib
+from deep_translator import GoogleTranslator
+import json
 
 def EnCrypt():
     top1 = Tk()
@@ -13,15 +14,32 @@ def EnCrypt():
         return top1.destroy()
 
     def encode():
+        data = str(data1_entry.get())
+        encoded_data = ""
+        hash_values = {}
 
-        encryptTransTable = str.maketrans(e, d)
-        data1 = str(data1_entry.get())
-        result = data1.translate(encryptTransTable)
-        result_label.config(text=result)
+        for word in data.split():
+            # Translate the English word to Spanish partially
+            partial_spanish = GoogleTranslator(source='en', target='es').translate(word)[:3]
 
-    # Open the file with UTF-8 encoding
+            # Generate a unique consistent number using hashlib for the word
+            hash_value = int(hashlib.sha256(word.encode()).hexdigest(), 16) % 899 + 100
+            hash_values[word] = hash_value  # Store hash value for the word
+
+            # Translate the word to Hindi partially
+            partial_hindi = GoogleTranslator(source='auto', target='hi').translate(word)[-3:]
+
+            encoded_data += partial_spanish + "§" + str(hash_value) + "§" + partial_hindi + " "
+
+        # Write hash values to a JSON file
+        with open("hash_values.json", "w") as json_file:
+            json.dump(hash_values, json_file)
+
+        result_label.config(text=encoded_data.strip())
+
+        # Open the file with UTF-8 encoding
         with open("ENCRYPTED_DATA.txt", "w", encoding="utf-8") as f:
-            f.write(result)
+            f.write(encoded_data.strip())
 
     def copy():
         return top1.clipboard_append((result_label["text"]))
@@ -37,7 +55,6 @@ def EnCrypt():
         command=encode,
         bg="pink",
         fg="navy blue",
-
         activebackground="green",
     ).grid(row=0, column=2)
 
@@ -56,7 +73,6 @@ def EnCrypt():
         fg="white",
         activebackground="magenta",
         font=23,
-
     ).grid(row=5, column=2)
 
     blah2 = Label(top1, bg="light blue").grid(row=6, column=2)
@@ -67,7 +83,7 @@ def EnCrypt():
         command=copy,
         bg="blue",
         fg="white",
-        
         activebackground="purple",
         font=23,
     ).grid(row=5, column=0)
+
