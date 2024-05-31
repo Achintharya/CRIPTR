@@ -86,4 +86,3 @@ def EnCrypt():
         activebackground="purple",
         font=23,
     ).grid(row=5, column=0)
-
