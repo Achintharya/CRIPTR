@@ -1,6 +1,6 @@
 import customtkinter as ctk
 from customtkinter import *
-from tkinter.messagebox import showerror
+from CustomMessagebox import show_custom_message
 from Decryption import DeCrypt
 import json
 
@@ -48,7 +48,7 @@ class Cred(ctk.CTk):
         username = self.user.get()
         password = self.password.get()
         if not username or not password:
-            showerror("ERROR", "Please enter both username and password.")
+            show_custom_message("ERROR", "Please enter both username and password.", parent_x=500, parent_y=300)
             return
         for key, value in self.data.items():
             if key == username:
@@ -57,9 +57,9 @@ class Cred(ctk.CTk):
                     DeCrypt()
                     return
                 else:
-                    showerror("ERROR", "Wrong password")
+                    show_custom_message("ERROR", "Wrong password", parent_x=500, parent_y=300)
                     return
-        showerror("ERROR", "Wrong username")
+        show_custom_message("ERROR", "Wrong username", parent_x=500, parent_y=300)
 
 if __name__ == "__main__":
     Cred().mainloop()

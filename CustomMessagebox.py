@@ -1,11 +1,12 @@
+import threading
 import customtkinter as ctk
 
 class CustomMessageBox(ctk.CTkToplevel):
     def __init__(self, master, title="Message", message="", parent_x=0, parent_y=0):
         super().__init__(master)
         self.title(title)
-        window_width= 400
-        window_height= 200
+        window_width= 250
+        window_height= 150
         self.setup_window(window_width, window_height, parent_x,parent_y)
         self.create_widgets(message)
         
@@ -31,4 +32,9 @@ def show_custom_message(title="Message", message="", parent_x=0, parent_y=0):
     CustomMessageBox(root, title, message, parent_x, parent_y)
     root.mainloop()
 
-#show_custom_message(title="Info", message="This is a custom message box.", parent_x = 900,parent_y =550)
+def run_message_box(title="Info", message="", parent_x=0, parent_y=0):
+    thread = threading.Thread(target=show_custom_message, args=(title, message, parent_x, parent_y))
+    thread.start()
+
+# if __name__ == "__main__":
+#     run_message_box("Info", "This is a custom message box.", 900, 550)
