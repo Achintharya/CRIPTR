@@ -7,7 +7,7 @@ class newUser():
 
     def __init__(self):
         self.new = Tk()
-        self.new.configureure(bg="light blue")
+        self.new.configure(bg="light blue")
         self.new.geometry("500x300")
         
         try:
