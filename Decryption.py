@@ -1,68 +1,89 @@
-import tkinter as Tk
-from tkinter import *
 import json
+import customtkinter as Tk
+from customtkinter import *
+from tkinter import messagebox
+from CustomMessagebox import show_custom_message
 
-def DeCrypt():
-    top2 = Tk()
-    top2.title("DeCryption")
-    top2.geometry("700x450")
-    top2.configure(bg="light blue")
+class DeCrypt(Tk.CTk):
+    def __init__(self):
+        super().__init__()
+        self.title("DeCryption")
+        self.setup_window()
+        self.create_widgets_layout()
+        self.load_hash_values()
+        self.mainloop()
+        
+    def setup_window(self):
+        window_width = 900
+        window_height = 550
+        left = (self.winfo_screenwidth() - window_width) // 2
+        top = (self.winfo_screenheight() - window_height) // 2
+        self.geometry(f"{window_width}x{window_height}+{left}+{top}")
+        self.bind("<Escape>", lambda event: self.quit())
 
-    def exit2():
-        return top2.destroy()
+    def exit2(self):
+        self.destroy()
 
-    def decode():
-        encoded_data = str(data2_entry.get())
+    def decode(self):
+        encoded_data = str(self.data_entry.get("1.0", "end-1c")).strip()
         decoded_data = ""
+        errors = []
 
-        # Read hash values from the JSON file
-        with open("HASH_VALUES.json", "r") as json_file:
-            hash_values = json.load(json_file)
+        if not encoded_data:
+            show_custom_message(title="Input error", message="Enter text to decode", parent_x=900, parent_y=550)
+            return
 
         for encoded_word in encoded_data.split(" "):
-            components = encoded_word.strip().split("§")
-            hash_value_str = components[1]  # Extract hash value from components
+            components = encoded_word.strip().split("Ω")
 
-            # Use hash value to find the original word
-            for word, hash_value in hash_values.items():
-                if str(hash_value) == hash_value_str:
-                    decoded_data += word + " "
-                    break
+            if len(components) >= 2:
+                hash_value_str = components[1]
+
+                if hash_value_str in map(str, self.hash_values.values()):
+                    for word, hash_value in self.hash_values.items():
+                        if str(hash_value) == hash_value_str:
+                            decoded_data += word + " "
+                            break
+                else:
+                    errors.append(f"Failed to decode word: {encoded_word}")
             else:
-                decoded_data += "ERROR: Failed to decode word\n"
+                errors.append(f"Invalid encoded word format: {encoded_word}")
 
-        result_label.config(text=decoded_data.strip())
+        if errors:
+            messagebox.showerror("Decryption Errors", "\n".join(errors))
 
-    data2 = Label(
-        top2, text="Enter data to Decrypt : ", font="Arial 16 bold", bg="light blue"
-    ).grid(row=1, column=0)
+        self.result_label.configure(text=decoded_data.strip())
 
-    data2_entry = Entry(top2)
-    data2_entry.grid(row=1, column=1)
+    def load_hash_values(self):
+        try:
+            with open("HASH_VALUES.json", "r") as json_file:
+                self.hash_values = json.load(json_file)
+            print("Hash Values Loaded") 
+        except FileNotFoundError:
+            self.hash_values = {}
+            show_custom_message(title="Error", message="Hash values file not found", parent_x=900, parent_y=550) 
 
-    data2_button = Button(
-        top2,
-        text="Decode",
-        command=decode,
-        bg="pink",
-        fg="navy blue",
-        activebackground="green",
-    ).grid(row=1, column=2)
+    def create_widgets_layout(self):
+        top_frame = CTkFrame(self, fg_color="transparent")
+        mid_frame = CTkFrame(self, fg_color="transparent")
+        bottom_frame = CTkFrame(self, fg_color="transparent")
+        
+        font = CTkFont(family="Arial", size=20, weight="bold")
 
-    result_name = Label(
-        top2, text="DeCrypted data : ", font="Arial 18 bold", bg="light blue"
-    ).grid(row=2, column=0)
+        data_label = CTkLabel(top_frame, text="Enter data to Decode : ", font=font)
+        self.data_entry = CTkTextbox(top_frame, height=200, width=400)
+        decode_button = CTkButton(top_frame, text="Decode", command=self.decode, hover_color="green")
+        result_name = CTkLabel(mid_frame, text="Decoded data : ", font=font)
+        self.result_label = CTkLabel(mid_frame, text="Wait for it", font=CTkFont(family="Arial", size=12, slant="italic"))
+        exit_button = CTkButton(bottom_frame, text="Exit", command=self.exit2, hover_color="red")
+        
+        top_frame.pack(side="top", pady=10)
+        mid_frame.pack(side="top", pady=20)
+        bottom_frame.pack(side="bottom")
 
-    result_label = Label(top2, bg="Light blue", font=10)
-    result_label.grid(row=2, column=1)
-
-    exit2_button = Button(
-        top2,
-        text="Exit",
-        command=exit2,
-        bg="red",
-        fg="white",
-        activebackground="magenta",
-        font=23,
-    ).grid(row=5, column=2)
-
+        data_label.pack(side="left")
+        self.data_entry.pack(padx=10)
+        decode_button.pack(padx=10)
+        result_name.pack(side="left", pady=10)
+        self.result_label.pack(side="left", pady=10)
+        exit_button.pack()
