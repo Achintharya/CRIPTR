@@ -85,8 +85,8 @@ class Menu(CTkFrame):
             batch = words[i:i+batch_size]
 
             # Preprocess and spell check the batch
-            names = ["Arav", "Achinth","Arun"]
-            custom_words = [self.spell_checker.add(name) for name in names]
+            names = ["Arav", "Achinth","Arun", "Karthik"]
+            custom_words = [self.spell_checker.word_frequency.add(name) for name in names]
             preprocessed_batch = [self.spell_checker.correction(word) for word in batch]
 
             # Translate the batch asynchronously
